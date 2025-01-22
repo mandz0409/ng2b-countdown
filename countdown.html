@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Countdown Timer</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+	<style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: black;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .countdown {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 1);
+            height: 300px;
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.3);
+            animation: glow-animation 1.5s infinite alternate;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .bg-blood {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 1;
+            /*transition: opacity 5s ease-in-out;*/
+            /*animation: fade-animation-bg 5s forwards;*/
+            /*animation-delay: 3.5s;*/
+            overflow: hidden;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .timer div {
+            margin: 3%;
+        }
+
+        .timer span {
+            display: block;
+        }
+
+        .timezone {
+            margin-top: 5px;
+            font-size: 30px;
+            font-weight: lighter;
+            font-style: italic;
+        }
+
+        .uot-font-size {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .counter {
+            font-size: 110px;
+            font-weight: bold;
+        }
+
+		.separator {
+            font-size: 50px;
+		}
+
+        @keyframes glow-animation {
+            0% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(185, 87, 87, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 200px rgba(161, 31, 31, 0.6);
+            }
+        }
+
+        .overlay-image {
+            position: absolute;
+            z-index: 1;
+            opacity: .3;
+            /*animation: fade-animation 5s forwards;*/
+            /*animation-delay: 3.5s;*/
+        }
+
+        @keyframes fade-animation {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes fade-animation-bg {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .separator {
+            font-size: 80px;
+            font-weight: bold;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+	</style>
+</head>
+<body>
+<div>
+	<img class="bg-blood" src="https://www.pngarc.com/wp-content/uploads/2023/05/Blood-splatter-background-png-image-1-min.png" alt="">
+	<img class="bg-blood" src="https://www.pngarc.com/wp-content/uploads/2023/05/bloodstain-Pattern-Analysis-background-png-image-1-min.png" alt="">
+	<div class="countdown" style="padding:0 100px 0 100px">
+		<img class="overlay-image" src="https://www.pngarc.com/wp-content/uploads/2023/05/Blood-splatter-background-png-image-1-min.png" alt="Blood Splatter">
+		<img class="overlay-image" src="https://www.pngarc.com/wp-content/uploads/2023/05/bloodstain-Pattern-Analysis-background-png-image-1-min.png" alt="Blood Splatter">
+		<div class="timer">
+			<div>
+				<span class="counter" id="days">0</span>
+				<span class="uot-font-size">Days</span>
+			</div>
+			<span class="separator">:</span>
+			<div>
+				<span class="counter" id="hours">0</span>
+				<span class="uot-font-size">Hours</span>
+			</div>
+			<span class="separator">:</span>
+			<div>
+				<span class="counter" id="minutes">0</span>
+				<span class="uot-font-size">Minutes</span>
+			</div>
+			<span class="separator">:</span>
+			<div>
+				<span class="counter" id="seconds">0</span>
+				<span class="uot-font-size">Seconds</span>
+			</div>
+		</div>
+		<div class="timezone">
+			<span>(HKT GMT+8)</span>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	const targetDate = new Date("January 24, 2025 09:00:00 GMT+0800").getTime();
+
+	const countdownInterval = setInterval(() => {
+		const now = new Date().getTime();
+		const timeDifference = targetDate - now;
+
+		const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+		const hours = Math.floor(
+			(timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		);
+		const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+		document.getElementById("days").textContent = days;
+		document.getElementById("hours").textContent = hours;
+		document.getElementById("minutes").textContent = minutes;
+		document.getElementById("seconds").textContent = seconds;
+
+		if (timeDifference < 0) {
+			clearInterval(countdownInterval);
+			window.location.href = "https://www.youtube.com/watch?v=16cO1alUFkE";
+			// document.getElementById("timer").innerHTML = "Countdown expired";
+		}
+	}, 1000);
+
+</script>
+</body>
+</html>
+
